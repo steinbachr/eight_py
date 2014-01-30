@@ -27,7 +27,7 @@ class MixSet():
 	def __init__(self, mix, headers, play_token):
 		self.mix = mix
 		self.headers = headers
-		self.play_token = play_token			
+		self.play_token = play_token				
 
 		self.play_url = 'http://8tracks.com/sets/{token}/play.json?mix_id={mix_id}'.format(token=play_token, mix_id=mix.id)
 		self.next_url = 'http://8tracks.com/sets/{token}/next.json?mix_id={mix_id}'.format(token=play_token, mix_id=mix.id)
@@ -50,6 +50,7 @@ class MixSet():
 			'name': track['name'],
 			'performer': track['performer'],
 			'skip_allowed': mix_set['skip_allowed'],
+			'done': mix_set['at_last_track']
 		}
 		logging.info('result is {result}'.format(result=result))
 
@@ -60,7 +61,7 @@ class Api():
 	"""
 	all external interaction comes through this class
 	"""
-	def __init__(self, api_key='7fe2e057bb81abf2248a06ecab027b8dc09e01d3'):
+	def __init__(self, api_key=None):
 		self.base_url = "http://8tracks.com/"
 		self.mixes_url = lambda smart_id: "{base}mix_sets/{smart_id}.json?include=mixes+pagination".format(base=self.base_url, smart_id=smart_id)
 		self.token_url = 'http://8tracks.com/sets/new.json'
@@ -84,7 +85,6 @@ class Api():
 		
 
 	#####-----< PUBLIC FUNCTIONS START HERE >-----#####
-
 
 	##--< Search Methods >--##
 
